@@ -304,8 +304,12 @@ resource "aws_vpc_security_group_ingress_rule" "eks_cluster_from_nodes_443" {
 # ------------------------------------------------------------
 
 resource "aws_launch_template" "eks_nodes" {
-  name_prefix            = "${var.eks_cluster_name}-node-"
-  vpc_security_group_ids = [aws_security_group.eks_nodes.id]
+  name_prefix = "${var.eks_cluster_name}-node-"
+
+  vpc_security_group_ids = [
+    aws_security_group.eks_nodes.id,
+    aws_eks_cluster.aims.vpc_config[0].cluster_security_group_id
+  ]
 
   tag_specifications {
     resource_type = "instance"
@@ -410,10 +414,19 @@ resource "aws_eks_addon" "after_nodes" {
   resolve_conflicts_on_create = "OVERWRITE"
   resolve_conflicts_on_update = "OVERWRITE"
 
+  service_account_role_arn = each.value == "aws-ebs-csi-driver" ? aws_iam_role.ebs_csi_driver.arn : null
+
+  timeouts {
+    create = "40m"
+    update = "40m"
+    delete = "20m"
+  }
+
   tags = local.common_tags
 
   depends_on = [
-    aws_eks_node_group.main
+    aws_eks_node_group.main,
+    aws_iam_role_policy_attachment.ebs_csi_driver
   ]
 }
 
@@ -444,6 +457,52 @@ resource "aws_iam_openid_connect_provider" "eks" {
 
 locals {
   eks_oidc_provider = replace(aws_eks_cluster.aims.identity[0].oidc[0].issuer, "https://", "")
+}
+
+# ------------------------------------------------------------
+# EBS CSI Driver IAM Role for IRSA
+# ServiceAccount: kube-system/ebs-csi-controller-sa
+# ------------------------------------------------------------
+
+data "aws_iam_policy_document" "ebs_csi_assume_role" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "sts:AssumeRoleWithWebIdentity"
+    ]
+
+    principals {
+      type        = "Federated"
+      identifiers = [aws_iam_openid_connect_provider.eks.arn]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${local.eks_oidc_provider}:aud"
+      values   = ["sts.amazonaws.com"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${local.eks_oidc_provider}:sub"
+      values   = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ebs_csi_driver" {
+  name               = "${var.eks_cluster_name}-ebs-csi-driver-role"
+  assume_role_policy = data.aws_iam_policy_document.ebs_csi_assume_role.json
+
+  tags = merge(local.common_tags, {
+    Name = "${var.eks_cluster_name}-ebs-csi-driver-role"
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ebs_csi_driver" {
+  role       = aws_iam_role.ebs_csi_driver.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
 
 # ------------------------------------------------------------
