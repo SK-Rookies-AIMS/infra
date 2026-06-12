@@ -57,7 +57,7 @@ variable "eks_node_desired_size" {
 
 variable "eks_node_min_size" {
   type    = number
-  default = 2
+  default = 0
 }
 
 variable "eks_node_max_size" {
@@ -352,6 +352,12 @@ resource "aws_eks_node_group" "main" {
     desired_size = var.eks_node_desired_size
     min_size     = var.eks_node_min_size
     max_size     = var.eks_node_max_size
+  }
+  
+  lifecycle {
+    ignore_changes = [
+      scaling_config[0].desired_size
+    ]
   }
 
   update_config {
