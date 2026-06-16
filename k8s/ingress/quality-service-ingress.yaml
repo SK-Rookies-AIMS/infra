@@ -22,10 +22,10 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: quality.aims-factory.com
+    - host: aims-factory.com
       http:
         paths:
-          - path: /
+          - path: /api/quality
             pathType: Prefix
             backend:
               service:

@@ -6,7 +6,7 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/load-balancer-name: aims-dev-alb
     alb.ingress.kubernetes.io/group.name: aims-dev-app
-    alb.ingress.kubernetes.io/group.order: '10'
+    alb.ingress.kubernetes.io/group.order: '100'
 
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
@@ -22,7 +22,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: frontend.aims-factory.com
+    - host: aims-factory.com
       http:
         paths:
           - path: /
