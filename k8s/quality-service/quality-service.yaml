@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quality-service
+  namespace: aims-project
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: quality-service
+  template:
+    metadata:
+      labels:
+        app: quality-service
+    spec:
+      containers:
+        - name: quality-service
+          image: public.ecr.aws/docker/library/busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /www/api/quality
+              echo "quality-service test ok" > /www/index.html
+              echo "quality-service test ok" > /www/api/quality/index.html
+              echo '{"status":"UP"}' > /www/api/quality/health
+              httpd -f -p 8083 -h /www
+          ports:
+            - containerPort: 8083
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quality-service
+  namespace: aims-project
+spec:
+  type: ClusterIP
+  selector:
+    app: quality-service
+  ports:
+    - name: http
+      port: 8083
+      targetPort: 8083
