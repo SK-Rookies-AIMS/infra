@@ -190,26 +190,16 @@ resource "aws_vpc_security_group_ingress_rule" "rds_from_eks" {
 # ------------------------------------------------------------
 # MSK Inbound Rules
 # EKS -> MSK
-# 9092: Plaintext
-# 9094: TLS
+# 9098: SASL/IAM Authentication + TLS
 # ------------------------------------------------------------
 
-resource "aws_vpc_security_group_ingress_rule" "msk_from_eks_9092" {
+resource "aws_vpc_security_group_ingress_rule" "msk_from_eks_9098" {
   security_group_id            = aws_security_group.msk.id
-  description                  = "Allow Kafka plaintext from EKS nodes"
+  description                  = "Allow Kafka IAM authentication from EKS nodes"
   referenced_security_group_id = aws_security_group.eks_nodes.id
   ip_protocol                  = "tcp"
-  from_port                    = 9092
-  to_port                      = 9092
-}
-
-resource "aws_vpc_security_group_ingress_rule" "msk_from_eks_9094" {
-  security_group_id            = aws_security_group.msk.id
-  description                  = "Allow Kafka TLS from EKS nodes"
-  referenced_security_group_id = aws_security_group.eks_nodes.id
-  ip_protocol                  = "tcp"
-  from_port                    = 9094
-  to_port                      = 9094
+  from_port                    = 9098
+  to_port                      = 9098
 }
 
 # ------------------------------------------------------------

@@ -353,7 +353,7 @@ resource "aws_eks_node_group" "main" {
     min_size     = var.eks_node_min_size
     max_size     = var.eks_node_max_size
   }
-  
+
   lifecycle {
     ignore_changes = [
       scaling_config[0].desired_size
