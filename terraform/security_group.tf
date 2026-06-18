@@ -125,26 +125,52 @@ resource "aws_vpc_security_group_ingress_rule" "bastion_ssh" {
 
 # ------------------------------------------------------------
 # EKS Node Inbound Rules
-# ALB -> EKS
-# EKS Node -> EKS Node
+# ALB -> EKS Services
 # ------------------------------------------------------------
 
 resource "aws_vpc_security_group_ingress_rule" "eks_from_alb_http" {
   security_group_id            = aws_security_group.eks_nodes.id
-  description                  = "Allow HTTP traffic from ALB"
+  description                  = "Allow frontend traffic from ALB"
   referenced_security_group_id = aws_security_group.alb.id
   ip_protocol                  = "tcp"
   from_port                    = 80
   to_port                      = 80
 }
 
-resource "aws_vpc_security_group_ingress_rule" "eks_from_alb_8080" {
+resource "aws_vpc_security_group_ingress_rule" "eks_from_alb_ai_8000" {
+  security_group_id            = aws_security_group.eks_nodes.id
+  description                  = "Allow AI service traffic from ALB"
+  referenced_security_group_id = aws_security_group.alb.id
+  ip_protocol                  = "tcp"
+  from_port                    = 8000
+  to_port                      = 8000
+}
+
+resource "aws_vpc_security_group_ingress_rule" "eks_from_alb_backend_8081" {
   security_group_id            = aws_security_group.eks_nodes.id
   description                  = "Allow backend traffic from ALB"
   referenced_security_group_id = aws_security_group.alb.id
   ip_protocol                  = "tcp"
-  from_port                    = 8080
-  to_port                      = 8080
+  from_port                    = 8081
+  to_port                      = 8081
+}
+
+resource "aws_vpc_security_group_ingress_rule" "eks_from_alb_assembly_8082" {
+  security_group_id            = aws_security_group.eks_nodes.id
+  description                  = "Allow assembly service traffic from ALB"
+  referenced_security_group_id = aws_security_group.alb.id
+  ip_protocol                  = "tcp"
+  from_port                    = 8082
+  to_port                      = 8082
+}
+
+resource "aws_vpc_security_group_ingress_rule" "eks_from_alb_quality_8083" {
+  security_group_id            = aws_security_group.eks_nodes.id
+  description                  = "Allow quality service traffic from ALB"
+  referenced_security_group_id = aws_security_group.alb.id
+  ip_protocol                  = "tcp"
+  from_port                    = 8083
+  to_port                      = 8083
 }
 
 resource "aws_vpc_security_group_ingress_rule" "eks_from_alb_3000" {
@@ -190,6 +216,7 @@ resource "aws_vpc_security_group_ingress_rule" "rds_from_eks" {
 # ------------------------------------------------------------
 # MSK Inbound Rules
 # EKS -> MSK
+# Bastion -> MSK
 # 9098: SASL/IAM Authentication + TLS
 # ------------------------------------------------------------
 
@@ -197,6 +224,15 @@ resource "aws_vpc_security_group_ingress_rule" "msk_from_eks_9098" {
   security_group_id            = aws_security_group.msk.id
   description                  = "Allow Kafka IAM authentication from EKS nodes"
   referenced_security_group_id = aws_security_group.eks_nodes.id
+  ip_protocol                  = "tcp"
+  from_port                    = 9098
+  to_port                      = 9098
+}
+
+resource "aws_vpc_security_group_ingress_rule" "msk_from_bastion_9098" {
+  security_group_id            = aws_security_group.msk.id
+  description                  = "Allow Kafka IAM authentication from Bastion"
+  referenced_security_group_id = aws_security_group.bastion.id
   ip_protocol                  = "tcp"
   from_port                    = 9098
   to_port                      = 9098
