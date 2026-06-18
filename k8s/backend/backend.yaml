@@ -17,40 +17,44 @@ spec:
         - name: backend
           image: IMAGE_PLACEHOLDER
           imagePullPolicy: IfNotPresent
+
           ports:
             - containerPort: 8081
+
+          envFrom:
+            - secretRef:
+                name: backend-rds-secret
+
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: dev
+
             - name: SERVER_PORT
               value: "8081"
-            - name: SPRING_DATASOURCE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: backend-rds-secret
-                  key: SPRING_DATASOURCE_URL
-            - name: SPRING_DATASOURCE_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: backend-rds-secret
-                  key: SPRING_DATASOURCE_USERNAME
-            - name: SPRING_DATASOURCE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: backend-rds-secret
-                  key: SPRING_DATASOURCE_PASSWORD
+
+            - name: MANAGEMENT_HEALTH_REDIS_ENABLED
+              value: "false"
+
+            - name: SPRING_CACHE_TYPE
+              value: "none"
+
           readinessProbe:
             httpGet:
               path: /api/health
               port: 8081
             initialDelaySeconds: 30
             periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+
           livenessProbe:
             httpGet:
               path: /api/health
               port: 8081
             initialDelaySeconds: 60
             periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
 ---
 apiVersion: v1
 kind: Service
