@@ -317,12 +317,4 @@ foreach ($Ec2Name in $Ec2Names) {
 }
 
 
-Write-Host ""
-Write-Host "============================================"
-Write-Host "개발 환경 시작 완료"
-Write-Host "1. EKS 노드 그룹: 생성 및 ACTIVE"
-Write-Host "2. RDS: 사용 가능"
-Write-Host "3. redmine-server: 실행"
-Write-Host "4. aims-dev-bastion: 실행"
-Write-Host "============================================"
 
