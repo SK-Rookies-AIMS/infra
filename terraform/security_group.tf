@@ -252,6 +252,15 @@ resource "aws_vpc_security_group_ingress_rule" "redis_from_eks" {
   to_port                      = 6379
 }
 
+resource "aws_vpc_security_group_ingress_rule" "redis_from_bastion" {
+  security_group_id            = aws_security_group.redis.id
+  description                  = "Allow Redis access from Bastion"
+  referenced_security_group_id = aws_security_group.bastion.id
+  ip_protocol                  = "tcp"
+  from_port                    = 6379
+  to_port                      = 6379
+}
+
 # ------------------------------------------------------------
 # OpenSearch Inbound Rules
 # EKS -> OpenSearch
