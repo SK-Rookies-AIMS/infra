@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: IMAGE_PLACEHOLDER
+          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/backend:dev-53c0bc78997d
           imagePullPolicy: IfNotPresent
 
           ports:
