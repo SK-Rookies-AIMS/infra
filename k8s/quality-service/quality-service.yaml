@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: quality-service
-          image: IMAGE_PLACEHOLDER
+          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/quality-service:dev-6333468c2f12
           imagePullPolicy: IfNotPresent
 
           ports:
