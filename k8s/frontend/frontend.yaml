@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/frontend:dev-3f78ad3702c9
+          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/frontend:dev-368acaab2644
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
