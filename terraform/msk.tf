@@ -159,7 +159,7 @@ locals {
       role           = "위험 이벤트 및 긴급 알림 전달"
     }
 
-    "factory.manufacturing.equipment" = {
+    "factory.equipment.status" = {
       partitions     = 2
       consumer_count = 1
       role           = "설비 상태 및 가동률 계산 결과 전달"
