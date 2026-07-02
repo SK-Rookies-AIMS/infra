@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: quality-service
-          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/quality-service:dev-6333468c2f12
+          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/quality-service:dev-60ac8eb59116
           imagePullPolicy: IfNotPresent
 
           ports:
