@@ -30,7 +30,7 @@ spec:
 
       containers:
         - name: assembly-service
-          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/assembly-service:dev
+          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/assembly-service:dev-884d2847e09a
           imagePullPolicy: Always
 
           ports:
