@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-service-api
+  namespace: ai-services
+  labels:
+    app: ai-service-api
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: ai-service-api
+  template:
+    metadata:
+      labels:
+        app: ai-service-api
+    spec:
+      terminationGracePeriodSeconds: 30
+
+      containers:
+        - name: ai-service-api
+          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/ai-service:dev
+          imagePullPolicy: Always
+
+          command:
+            - python
+            - -m
+            - uvicorn
+
+          args:
+            - app.main:app
+            - --host
+            - 0.0.0.0
+            - --port
+            - "8000"
+
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+
+          envFrom:
+            - configMapRef:
+                name: ai-service-config
+            - secretRef:
+                name: ai-service-secret
+
+          readinessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 6
+
+          livenessProbe:
+            tcpSocket:
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "2Gi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-service-api
+  namespace: ai-services
+spec:
+  type: ClusterIP
+  selector:
+    app: ai-service-api
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-service-worker
+  namespace: ai-services
+  labels:
+    app: ai-service-worker
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: ai-service-worker
+  template:
+    metadata:
+      labels:
+        app: ai-service-worker
+    spec:
+      terminationGracePeriodSeconds: 60
+
+      containers:
+        - name: ai-service-worker
+          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/ai-service:dev
+          imagePullPolicy: Always
+
+          command:
+            - python
+
+          args:
+            - worker_main.py
+
+          envFrom:
+            - configMapRef:
+                name: ai-service-config
+            - secretRef:
+                name: ai-service-secret
+
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "2000m"
+              memory: "4Gi"
