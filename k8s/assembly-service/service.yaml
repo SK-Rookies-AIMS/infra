@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: assembly-service
+  namespace: aims-project
+  labels:
+    app: assembly-service
+spec:
+  type: ClusterIP
+
+  selector:
+    app: assembly-service
+
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8082
+      targetPort: 8082
