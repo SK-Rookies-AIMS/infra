@@ -1,7 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 resources:
-  - namespace.yaml
-  - configmap.yaml
-  - ai-service.yaml
+- namespace.yaml
+- configmap.yaml
+- api-deployment.yaml
+- worker-deployment.yaml
+- service.yaml
+images:
+- name: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/ai-service
+  newName: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/ai-service
+  newTag: dev-5ef636719ca4

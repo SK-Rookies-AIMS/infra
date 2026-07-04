@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: aims-project
+data:
+  APP_NAME: backend
+  SPRING_PROFILES_ACTIVE: dev
+  SERVER_PORT: "8081"
+  MANAGEMENT_HEALTH_REDIS_ENABLED: "false"
+  SPRING_CACHE_TYPE: none

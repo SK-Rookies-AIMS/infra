@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: quality-service-config
+  namespace: aims-project
+data:
+  APP_NAME: quality-service
+  SPRING_PROFILES_ACTIVE: dev
+  SERVER_PORT: "8083"
+  MANAGEMENT_ENDPOINTS_WEB_BASE_PATH: /api/quality
+  MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health
+  MANAGEMENT_HEALTH_REDIS_ENABLED: "false"
+  KAFKA_GROUP_ID: quality-dev
+  LOG_PATH: /tmp/logs/dev
