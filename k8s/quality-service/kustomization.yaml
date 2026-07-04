@@ -7,4 +7,4 @@ resources:
 images:
 - name: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/quality-service
   newName: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/quality-service
-  newTag: dev-60ac8eb59116
+  newTag: dev-0b303dffbb59
