@@ -1,16 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: assembly-service
+  name: frontend
   namespace: aims-project
   labels:
-    app: assembly-service
+    app: frontend
 spec:
   type: ClusterIP
   selector:
-    app: assembly-service
+    app: frontend
   ports:
     - name: http
-      protocol: TCP
-      port: 8082
-      targetPort: 8082
+      port: 80
+      targetPort: 80

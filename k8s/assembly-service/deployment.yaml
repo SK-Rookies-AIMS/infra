@@ -8,43 +8,41 @@ metadata:
 spec:
   replicas: 1
   revisionHistoryLimit: 3
-
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 0
       maxSurge: 1
-
   selector:
     matchLabels:
       app: assembly-service
-
   template:
     metadata:
       labels:
         app: assembly-service
-
     spec:
       serviceAccountName: assembly-service
       terminationGracePeriodSeconds: 60
-
       containers:
         - name: assembly-service
           image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/assembly-service:dev-d6d8e4ee8102
           imagePullPolicy: Always
-
           ports:
             - name: http
               containerPort: 8082
               protocol: TCP
-
           envFrom:
             - configMapRef:
                 name: assembly-service-config
-
             - secretRef:
                 name: assembly-service-secret
-
+          startupProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8082
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 30
           readinessProbe:
             httpGet:
               path: /actuator/health
@@ -53,7 +51,6 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 12
-
           livenessProbe:
             httpGet:
               path: /actuator/health
@@ -62,15 +59,6 @@ spec:
             periodSeconds: 20
             timeoutSeconds: 5
             failureThreshold: 5
-
-          startupProbe:
-            httpGet:
-              path: /actuator/health
-              port: 8082
-            periodSeconds: 10
-            timeoutSeconds: 5
-            failureThreshold: 30
-
           resources:
             requests:
               cpu: 250m
@@ -78,11 +66,9 @@ spec:
             limits:
               cpu: "1"
               memory: 1Gi
-
           volumeMounts:
             - name: logs
               mountPath: /app/logs
-
       volumes:
         - name: logs
           emptyDir: {}

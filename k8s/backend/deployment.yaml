@@ -3,8 +3,11 @@ kind: Deployment
 metadata:
   name: backend
   namespace: aims-project
+  labels:
+    app: backend
 spec:
   replicas: 2
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: backend
@@ -15,29 +18,16 @@ spec:
     spec:
       containers:
         - name: backend
-          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/backend:dev-53c0bc78997d
+          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/backend:dev
           imagePullPolicy: IfNotPresent
-
           ports:
-            - containerPort: 8081
-
+            - name: http
+              containerPort: 8081
           envFrom:
+            - configMapRef:
+                name: backend-config
             - secretRef:
                 name: backend-rds-secret
-
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: dev
-
-            - name: SERVER_PORT
-              value: "8081"
-
-            - name: MANAGEMENT_HEALTH_REDIS_ENABLED
-              value: "false"
-
-            - name: SPRING_CACHE_TYPE
-              value: "none"
-
           readinessProbe:
             httpGet:
               path: /api/health
@@ -46,7 +36,6 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 6
-
           livenessProbe:
             httpGet:
               path: /api/health
@@ -55,17 +44,10 @@ spec:
             periodSeconds: 20
             timeoutSeconds: 3
             failureThreshold: 3
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend
-  namespace: aims-project
-spec:
-  type: ClusterIP
-  selector:
-    app: backend
-  ports:
-    - name: http
-      port: 8081
-      targetPort: 8081
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi

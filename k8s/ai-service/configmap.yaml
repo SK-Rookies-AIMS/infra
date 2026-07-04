@@ -4,20 +4,16 @@ metadata:
   name: ai-service-config
   namespace: ai-services
 data:
+  APP_NAME: AI Service
   DEBUG: "false"
-  LOG_LEVEL: "INFO"
+  LOG_LEVEL: INFO
 
-  REDIS_URL: "redis://aims-dev-redis.80mdpk.ng.0001.apn2.cache.amazonaws.com:6379/0"
-  REDIS_KEY_PREFIX: "aims:ai-service"
+  REDIS_URL: redis://aims-dev-redis.80mdpk.ng.0001.apn2.cache.amazonaws.com:6379/0
+  REDIS_KEY_PREFIX: aims:ai-service
   REDIS_CACHE_TTL_SECONDS: "60"
 
-  BROKER_URL_1: "b-1.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098"
-  BROKER_URL_2: "b-2.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098"
-
-  DB_HOST: "aims-dev-mysql.c7yyi6w0ch43.ap-northeast-2.rds.amazonaws.com"
-  DB_PORT: "3306"
-  MAIN_DB_NAME: "maindb"
-  SAMPLE_DB_NAME: "sampledb"
+  BROKER_URL_1: b-1.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098
+  BROKER_URL_2: b-2.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098
 
   AI_MANUAL_API_URL: ""
   COLLEAGUE_SKILL_API_URL: ""
