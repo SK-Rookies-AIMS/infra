@@ -70,3 +70,6 @@ Thumbs.db
 !.vscode/extensions.json
 .idea/backend-rds-secret-backup.yaml
 backend-rds-secret-backup.yaml
+aws-load-balancer-controller-crds.yaml
+/k8s/platform/argocd/
+/k8s/platform/kafbat/
