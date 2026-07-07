@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ai-service-ingress
-  namespace: ai-services
+  namespace: aims-project
   annotations:
     alb.ingress.kubernetes.io/load-balancer-name: aims-dev-alb
     alb.ingress.kubernetes.io/group.name: aims-dev-app

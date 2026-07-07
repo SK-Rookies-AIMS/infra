@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: ai-service-config
-  namespace: ai-services
+  namespace: aims-project
 data:
   APP_NAME: AI Service
   DEBUG: "false"

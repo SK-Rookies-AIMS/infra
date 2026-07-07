@@ -53,6 +53,7 @@ spec:
           envFrom:
             - secretRef:
                 name: quality-service-runtime-secret
+                optional: true
 
           startupProbe:
             httpGet:

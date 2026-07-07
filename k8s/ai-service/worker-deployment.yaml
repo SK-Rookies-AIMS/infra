@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ai-service-worker
-  namespace: ai-services
+  namespace: aims-project
   labels:
     app: ai-service-worker
 spec:
@@ -32,6 +32,7 @@ spec:
                 name: ai-service-config
             - secretRef:
                 name: ai-service-secret
+                optional: true
           resources:
             requests:
               cpu: 500m

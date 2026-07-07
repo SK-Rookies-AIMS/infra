@@ -21,25 +21,34 @@ spec:
         - name: ai-service-api
           image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/ai-service:dev
           imagePullPolicy: Always
+
+          workingDir: /app
+
           command:
             - python
             - -m
             - uvicorn
+
           args:
             - app.main:app
+            - --reload
             - --host
             - 0.0.0.0
             - --port
             - "8000"
+
           ports:
             - name: http
               containerPort: 8000
               protocol: TCP
+
           envFrom:
             - configMapRef:
                 name: ai-service-config
             - secretRef:
                 name: ai-service-secret
+                optional: true
+
           startupProbe:
             httpGet:
               path: /api/health
@@ -47,6 +56,7 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 3
             failureThreshold: 30
+
           readinessProbe:
             httpGet:
               path: /api/health
@@ -54,6 +64,7 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 6
+
           livenessProbe:
             httpGet:
               path: /api/health
@@ -61,6 +72,7 @@ spec:
             periodSeconds: 20
             timeoutSeconds: 3
             failureThreshold: 3
+
           resources:
             requests:
               cpu: 250m
