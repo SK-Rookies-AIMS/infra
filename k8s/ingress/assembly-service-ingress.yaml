@@ -15,7 +15,7 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-port: traffic-port
     alb.ingress.kubernetes.io/success-codes: '200'
     alb.ingress.kubernetes.io/group.order: '20'
-    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+    alb.ingress.kubernetes.io/healthcheck-path: /api/process/health
 spec:
   ingressClassName: alb
   rules:

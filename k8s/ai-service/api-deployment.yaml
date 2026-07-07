@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ai-service-api
-  namespace: ai-services
+  namespace: aims-project
   labels:
     app: ai-service-api
 spec:
