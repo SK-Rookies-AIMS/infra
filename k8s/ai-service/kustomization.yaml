@@ -7,4 +7,4 @@ resources:
 images:
 - name: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/ai-service
   newName: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/ai-service
-  newTag: dev-9ad0be28c539
+  newTag: dev-240cd68f17fe
