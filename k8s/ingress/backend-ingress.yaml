@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1
+﻿apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: backend-ingress
@@ -26,6 +26,13 @@ spec:
       http:
         paths:
           - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 8081
+          - path: /ws
             pathType: Prefix
             backend:
               service:
