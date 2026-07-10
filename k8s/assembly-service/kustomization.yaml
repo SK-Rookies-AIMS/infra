@@ -8,4 +8,4 @@ resources:
 images:
 - name: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/assembly-service
   newName: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/assembly-service
-  newTag: dev-94be31c14cee
+  newTag: dev-bbd63b48ba9f
