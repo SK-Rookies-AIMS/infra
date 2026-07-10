@@ -6,4 +6,4 @@ resources:
 images:
 - name: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/frontend
   newName: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/frontend
-  newTag: dev-c46d24d73ce9
+  newTag: dev-517260a6aa30
