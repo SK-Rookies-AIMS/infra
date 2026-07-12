@@ -39,13 +39,13 @@ resource "aws_db_parameter_group" "mysql" {
 
   parameter {
     name         = "wait_timeout"
-    value        = "5"
+    value        = "60"
     apply_method = "immediate"
   }
 
   parameter {
     name         = "interactive_timeout"
-    value        = "5"
+    value        = "60"
     apply_method = "immediate"
   }
 
