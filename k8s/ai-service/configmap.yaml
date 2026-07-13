@@ -8,7 +8,6 @@ data:
   DEBUG: "false"
   LOG_LEVEL: INFO
 
-  REDIS_URL: redis://aims-dev-redis.80mdpk.ng.0001.apn2.cache.amazonaws.com:6379/0
   REDIS_KEY_PREFIX: aims:ai-service
   REDIS_CACHE_TTL_SECONDS: "60"
 
@@ -16,6 +15,6 @@ data:
   BROKER_URL_2: b-2.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098
 
   ELASTICSEARCH_URL: "http://elasticsearch.platform.svc.cluster.local:9200"
-  
+
   AI_MANUAL_API_URL: ""
   COLLEAGUE_SKILL_API_URL: ""
