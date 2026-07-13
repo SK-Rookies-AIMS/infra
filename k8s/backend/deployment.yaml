@@ -26,6 +26,7 @@ spec:
         app: backend
 
     spec:
+      serviceAccountName: backend
       containers:
         - name: backend
           image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/backend:dev
