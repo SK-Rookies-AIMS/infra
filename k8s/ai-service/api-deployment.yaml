@@ -16,6 +16,7 @@ spec:
       labels:
         app: ai-service-api
     spec:
+      serviceAccountName: ai-service
       terminationGracePeriodSeconds: 30
       containers:
         - name: ai-service-api
