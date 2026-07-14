@@ -8,4 +8,4 @@ resources:
 images:
 - name: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/backend
   newName: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/backend
-  newTag: dev-1d044fa63f86
+  newTag: dev-ab4e261f417c
