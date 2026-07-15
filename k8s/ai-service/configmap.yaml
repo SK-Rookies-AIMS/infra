@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-service-config
+  namespace: aims-project
+data:
+  APP_NAME: AI Service
+  DEBUG: "false"
+  LOG_LEVEL: INFO
+
+  REDIS_KEY_PREFIX: aims:ai-service
+  REDIS_CACHE_TTL_SECONDS: "60"
+
+  BROKER_URL_1: b-1.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098
+  BROKER_URL_2: b-2.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098
+
+  ELASTICSEARCH_URL: "http://elasticsearch.platform.svc.cluster.local:9200"
+
+  AI_MANUAL_API_URL: ""
+  COLLEAGUE_SKILL_API_URL: ""

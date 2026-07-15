@@ -29,6 +29,32 @@ resource "aws_db_subnet_group" "rds" {
 }
 
 # ------------------------------------------------------------
+# RDS MySQL Parameter Group
+# ------------------------------------------------------------
+
+resource "aws_db_parameter_group" "mysql" {
+  name        = "${local.name_prefix}-mysql84-parameter-group"
+  family      = "mysql8.4"
+  description = "Custom parameter group for AIMS MySQL RDS"
+
+  parameter {
+    name         = "wait_timeout"
+    value        = "60"
+    apply_method = "immediate"
+  }
+
+  parameter {
+    name         = "interactive_timeout"
+    value        = "60"
+    apply_method = "immediate"
+  }
+
+  tags = merge(local.common_tags, {
+    Name = "${local.name_prefix}-mysql84-parameter-group"
+  })
+}
+
+# ------------------------------------------------------------
 # Single RDS MySQL Instance
 # sampledb는 RDS 생성 시 initial database로 생성
 # maindb는 생성 후 SQL로 추가 생성
@@ -52,6 +78,9 @@ resource "aws_db_instance" "mysql" {
 
   db_subnet_group_name   = aws_db_subnet_group.rds.name
   vpc_security_group_ids = [aws_security_group.rds.id]
+
+  # 사용자 정의 파라미터 그룹 적용
+  parameter_group_name = aws_db_parameter_group.mysql.name
 
   publicly_accessible = false
   multi_az            = false

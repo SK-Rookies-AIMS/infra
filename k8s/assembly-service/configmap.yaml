@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: assembly-service-config
+  namespace: aims-project
+data:
+  APP_NAME: assembly
+  SPRING_PROFILES_ACTIVE: dev
+
+  MAIN_DB_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+  MAIN_DB_MAXIMUM_POOL_SIZE: "5"
+  MAIN_DB_MINIMUM_IDLE: "1"
+  MAIN_DB_POOL_NAME: assembly-main-db-pool
+
+  SAMPLE_DB_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+  SAMPLE_DB_MAXIMUM_POOL_SIZE: "3"
+  SAMPLE_DB_MINIMUM_IDLE: "0"
+  SAMPLE_DB_POOL_NAME: assembly-sample-db-pool
+
+  REDIS_HOST: aims-dev-redis.80mdpk.ng.0001.apn2.cache.amazonaws.com
+  REDIS_PORT: "6379"
+  REDIS_TIMEOUT: 3s
+  REDIS_CACHE_TTL: 10m
+
+  MSK_BOOTSTRAP_SERVERS: b-1.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098,b-2.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098
+  KAFKA_BOOTSTRAP_SERVERS: b-1.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098,b-2.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098
+  KAFKA_AUTO_OFFSET_RESET: earliest
+  KAFKA_LISTENERS_ENABLED: "true"
+
+  KAFKA_REPLAY_SCHEDULER_ENABLED: "true"
+  KAFKA_REPLAY_FIXED_DELAY_MS: "5000"
+  KAFKA_REPLAY_BATCH_SIZE: "10"
+  KAFKA_REPLAY_MAX_RETRIES: "3"
+
+  OPENSEARCH_SCHEME: http
+  OPENSEARCH_HOST: elasticsearch.platform.svc.cluster.local
+  OPENSEARCH_PORT: "9200"
+
+  LOG_PATH: /app/logs/dev
+  JWT_ACCESS_EXPIRATION: "3600000"
+  JWT_REFRESH_EXPIRATION: "1209600000"

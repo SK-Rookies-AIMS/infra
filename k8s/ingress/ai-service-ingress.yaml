@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ai-service-ingress
+  namespace: aims-project
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: aims-dev-alb
+    alb.ingress.kubernetes.io/group.name: aims-dev-app
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/security-groups: sg-01a09bb0c15fe3b27
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:858507113889:certificate/8012fcc1-0e43-4b06-a22a-b36b19a4483f
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port
+    alb.ingress.kubernetes.io/success-codes: '200'
+    alb.ingress.kubernetes.io/group.order: '40'
+    alb.ingress.kubernetes.io/healthcheck-path: /api/health
+spec:
+  ingressClassName: alb
+  rules:
+  - host: aims-factory.com
+    http:
+      paths:
+      - path: /api/ai
+        pathType: Prefix
+        backend:
+          service:
+            name: ai-service-api
+            port:
+              number: 8000

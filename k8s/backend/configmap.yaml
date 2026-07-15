@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: aims-project
+
+data:
+  APP_NAME: backend
+  SPRING_PROFILES_ACTIVE: dev
+  SERVER_PORT: "8081"
+
+    # Internal Service
+  ASSEMBLY_SERVICE_URL: http://assembly-service:8082
+  
+  # Main DB
+  MAIN_DB_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+  MAIN_DB_MAXIMUM_POOL_SIZE: "10"
+  MAIN_DB_MINIMUM_IDLE: "2"
+  MAIN_DB_POOL_NAME: main-db-pool
+
+  # Sample DB
+  SAMPLE_DB_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+  SAMPLE_DB_MAXIMUM_POOL_SIZE: "5"
+  SAMPLE_DB_MINIMUM_IDLE: "1"
+  SAMPLE_DB_POOL_NAME: sample-db-pool
+
+  # Redis
+  REDIS_HOST: aims-dev-redis.80mdpk.ng.0001.apn2.cache.amazonaws.com
+  REDIS_PORT: "6379"
+  REDIS_TIMEOUT: 3s
+  REDIS_CACHE_TTL: 10m
+
+  MANAGEMENT_HEALTH_REDIS_ENABLED: "true"
+  SPRING_CACHE_TYPE: none
+
+  # Kafka / Amazon MSK
+  MSK_BOOTSTRAP_SERVERS: b-1.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098,b-2.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098
+  KAFKA_BOOTSTRAP_SERVERS: b-1.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098,b-2.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098
+  KAFKA_GROUP_ID: main-dev
+  KAFKA_AUTO_OFFSET_RESET: earliest
+  KAFKA_LISTENERS_ENABLED: "true"
+
+  # OpenSearch
+  OPENSEARCH_SCHEME: http
+  OPENSEARCH_HOST: elasticsearch.platform.svc.cluster.local
+  OPENSEARCH_PORT: "9200"
+
+  # Logging
+  LOG_PATH: /app/logs/dev
+
+  # JWT
+  JWT_ACCESS_EXPIRATION: "3600000"
+  JWT_REFRESH_EXPIRATION: "1209600000"

@@ -182,6 +182,15 @@ resource "aws_vpc_security_group_ingress_rule" "eks_from_alb_3000" {
   to_port                      = 3000
 }
 
+resource "aws_vpc_security_group_ingress_rule" "eks_from_alb_kibana_5601" {
+  security_group_id            = aws_security_group.eks_nodes.id
+  description                  = "Allow Kibana traffic from ALB"
+  referenced_security_group_id = aws_security_group.alb.id
+  ip_protocol                  = "tcp"
+  from_port                    = 5601
+  to_port                      = 5601
+}
+
 resource "aws_vpc_security_group_ingress_rule" "eks_self" {
   security_group_id            = aws_security_group.eks_nodes.id
   description                  = "Allow all traffic between EKS nodes"
@@ -247,15 +256,6 @@ resource "aws_vpc_security_group_ingress_rule" "redis_from_eks" {
   security_group_id            = aws_security_group.redis.id
   description                  = "Allow Redis from EKS nodes"
   referenced_security_group_id = aws_security_group.eks_nodes.id
-  ip_protocol                  = "tcp"
-  from_port                    = 6379
-  to_port                      = 6379
-}
-
-resource "aws_vpc_security_group_ingress_rule" "redis_from_bastion" {
-  security_group_id            = aws_security_group.redis.id
-  description                  = "Allow Redis access from Bastion"
-  referenced_security_group_id = aws_security_group.bastion.id
   ip_protocol                  = "tcp"
   from_port                    = 6379
   to_port                      = 6379

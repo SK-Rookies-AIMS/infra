@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-service-worker
+  namespace: aims-project
+  labels:
+    app: ai-service-worker
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: ai-service-worker
+  template:
+    metadata:
+      labels:
+        app: ai-service-worker
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: ai-service-worker
+          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims/ai-service:dev
+          imagePullPolicy: Always
+          workingDir: /app
+          command:
+            - python
+          args:
+            - -m
+            - app.worker_main
+          envFrom:
+            - configMapRef:
+                name: ai-service-config
+            - secretRef:
+                name: ai-service-secret
+                optional: true
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi

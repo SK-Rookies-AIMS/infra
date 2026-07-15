@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  namespace: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      serviceAccountName: logstash-msk
+      containers:
+        - name: logstash
+          image: 858507113889.dkr.ecr.ap-northeast-2.amazonaws.com/aims-logstash:8.17.0
+          imagePullPolicy: Always
+          env:
+            - name: MSK_BOOTSTRAP_SERVERS
+              value: b-2.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098,b-1.aimsdevmsk.3g8nqa.c2.kafka.ap-northeast-2.amazonaws.com:9098
+            - name: AWS_REGION
+              value: ap-northeast-2
+            - name: AWS_DEFAULT_REGION
+              value: ap-northeast-2
+            - name: LS_JAVA_OPTS
+              value: -Xms512m -Xmx512m
+          resources:
+            requests:
+              cpu: 250m
+              memory: 768Mi
+            limits:
+              cpu: "1"
+              memory: 1500Mi
