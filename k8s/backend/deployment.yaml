@@ -42,20 +42,27 @@ spec:
             - secretRef:
                 name: backend-rds-secret
 
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: 8081
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 30   # 20s + 30*10s = 최대 320초까지 기동 유예
+
           readinessProbe:
             httpGet:
               path: /api/health
               port: 8081
-            initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 3
-            failureThreshold: 6
+            failureThreshold: 3    # startupProbe가 이미 기동을 보장하므로 짧게
 
           livenessProbe:
             httpGet:
               path: /api/health
               port: 8081
-            initialDelaySeconds: 60
             periodSeconds: 20
             timeoutSeconds: 3
             failureThreshold: 3
