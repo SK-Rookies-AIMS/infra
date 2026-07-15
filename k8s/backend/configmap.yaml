@@ -9,6 +9,9 @@ data:
   SPRING_PROFILES_ACTIVE: dev
   SERVER_PORT: "8081"
 
+    # Internal Service
+  ASSEMBLY_SERVICE_URL: http://assembly-service:8082
+  
   # Main DB
   MAIN_DB_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
   MAIN_DB_MAXIMUM_POOL_SIZE: "10"
