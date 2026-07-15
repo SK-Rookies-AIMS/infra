@@ -73,3 +73,4 @@ backend-rds-secret-backup.yaml
 aws-load-balancer-controller-crds.yaml
 /k8s/platform/argocd/
 /k8s/platform/kafbat/
+backend-msk-policy.json

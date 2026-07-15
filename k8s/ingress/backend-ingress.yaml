@@ -12,6 +12,8 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/security-groups: sg-01a09bb0c15fe3b27
 
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=3600
+
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:858507113889:certificate/8012fcc1-0e43-4b06-a22a-b36b19a4483f
     alb.ingress.kubernetes.io/ssl-redirect: '443'
