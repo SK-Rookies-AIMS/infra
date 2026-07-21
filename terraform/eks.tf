@@ -243,8 +243,8 @@ resource "aws_eks_cluster" "aims" {
     endpoint_public_access  = true
     endpoint_private_access = true
 
-    # 현재 PC IP만 EKS API Public Endpoint 접근 허용
-    public_access_cidrs = [var.my_ip]
+    # GitHub-hosted Runner와 외부 kubectl 접근 허용
+    public_access_cidrs = ["0.0.0.0/0"]
   }
 
   tags = merge(local.common_tags, {
